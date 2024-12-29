@@ -1,3 +1,4 @@
+{% set python_min = '3.10' %}
 {% set name = "datashaper" %}
 {% set version = "0.0.49" %}
 
@@ -6,21 +7,21 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/datashaper-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/datashaper-{{ version }}.tar.gz
   sha256: 05bfba5964474a62bdd5259ec3fa0173d01e365208b6a4aff4ea0e63096a7533
 
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.10,<4.0
+    - python {{ python_min }}
     - poetry-core >=1.0.0
     - pip
   run:
-    - python >=3.10,<4.0
+    - python >={{ python_min }},<4.0
     - pandas >=2.2.0,<3.0.0
     - jsonschema >=4.21.1,<5.0.0
     - pyarrow >=15.0.0,<16.0.0
@@ -34,6 +35,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: This project provides a collection of utilities for doing lightweight data wrangling.
